@@ -8,10 +8,6 @@ MoufUtils::registerMenuItem('utilsDbMailServiceInterfaceViewOutgoingMailsMenuIte
 
 
 // Controller declaration
-MoufManager::getMoufManager()->declareComponent('dbmailserviceinstall', 'Mouf\\Utils\\Mailer\\Controllers\\DBMailServiceInstallController', true);
-MoufManager::getMoufManager()->bindComponents('dbmailserviceinstall', 'template', 'moufInstallTemplate');
-MoufManager::getMoufManager()->bindComponents('dbmailserviceinstall', 'content', 'block.content');
-
 MoufManager::getMoufManager()->declareComponent('dbmailservice', 'Mouf\\Utils\\Mailer\\Controllers\\DBMailServiceListController', true);
 MoufManager::getMoufManager()->bindComponents('dbmailservice', 'template', 'moufTemplate');
 MoufManager::getMoufManager()->bindComponents('dbmailservice', 'content', 'block.content');

@@ -1,5 +1,6 @@
 <?php
 
+use Mouf\Mvc\Splash\Controllers\Controller;
 /**
  * The controller used by the db mail service to display mail lists and mails.
  *
@@ -17,6 +18,13 @@ class DBMailServiceListController extends Controller {
 	 * @var TemplateInterface
 	 */
 	public $template;
+	
+	/**
+	 * @Property
+	 * @Compulsory
+	 * @var HtmlBlock
+	 */
+	public $content;
 	
 	/**
 	 * The list of mails retrieved.

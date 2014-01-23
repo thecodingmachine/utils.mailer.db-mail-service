@@ -36,12 +36,10 @@
 				"src/DBMailServiceAdmin.php"
 			],
 			"install" : [{
-					"type" : "url",
-					"url" : "dbmailserviceinstall/",
-					"scope" : "global",
-					"description" : "Creates DB Mail Service instance"
+					"type" : "class",
+					"class" : "Mouf\\Utils\\Mailer\\DBMailServiceInstaller"
 				}
-			]
+			],
 		}
 	}
 }
