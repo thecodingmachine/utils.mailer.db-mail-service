@@ -39,7 +39,7 @@
 					"type" : "class",
 					"class" : "Mouf\\Utils\\Mailer\\DBMailServiceInstaller"
 				}
-			],
+			]
 		}
 	}
 }
