@@ -1,4 +1,5 @@
 <?php
+namespace Mouf\Utils\Mailer;
 
 /**
  * This class, that extends the Mail class adds required methods to benefit from all the power of the DBMailService.

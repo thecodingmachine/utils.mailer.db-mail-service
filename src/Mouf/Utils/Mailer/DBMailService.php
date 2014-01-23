@@ -1,4 +1,7 @@
 <?php
+namespace Mouf\Utils\Mailer;
+
+use Mouf\Utils\Mailer\MailServiceInterface;
 
 /**
  * This class does not send mails; instead it stores the mails in database.<br/>
@@ -208,7 +211,7 @@ class DBMailService implements MailServiceInterface {
 			ORDER BY $sortby $sortorder";
 		// TODO: think about SQL injection in sortby and sortorder
 		
-		return $this->datasource->getAll($sql, PDO::FETCH_ASSOC, null, $offset, $limit);
+		return $this->datasource->getAll($sql, \PDO::FETCH_ASSOC, null, $offset, $limit);
 	}
 	
 	/**

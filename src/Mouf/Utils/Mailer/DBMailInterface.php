@@ -1,4 +1,5 @@
 <?php
+namespace Mouf\Utils\Mailer;
 
 interface DBMailInterface extends MailInterface {
 

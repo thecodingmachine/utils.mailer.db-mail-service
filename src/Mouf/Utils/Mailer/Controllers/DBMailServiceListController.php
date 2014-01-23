@@ -1,6 +1,7 @@
 <?php
 
 use Mouf\Mvc\Splash\Controllers\Controller;
+use Mouf\Utils\Common\MoufHelpers\MoufProxy;
 /**
  * The controller used by the db mail service to display mail lists and mails.
  *

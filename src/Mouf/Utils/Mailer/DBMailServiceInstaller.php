@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2013 David Negrier
+ * Copyright (c) 2013-2014 David Negrier
  * 
  * See the file LICENSE.txt for copying permission.
  */
