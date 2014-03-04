@@ -6,7 +6,7 @@ Storing outgoing mails
 
 In Mouf, *emails* are sent using *MailServices*.<br/>
 This package contains a mailer that does not send any mail! Instead, it stores the mail to
-be sent in a database table. The DB mailer can also forward the mail to a real mailer that will indeed send the mail (usually a [`SmtpMailService`](http://mouf-php.com/packages/mouf/utils.mailer.smtp-mail-service/README.md))
+be sent in a database table. The DB mailer can also forward the mail to a real mailer that will indeed send the mail (usually a [**SmtpMailService**](http://mouf-php.com/packages/mouf/utils.mailer.smtp-mail-service/README.md))
 
 Mails are stored in the `outgoing_mails` table while "from", "to", "cc" and "bcc" fields are stored in the 
 `outgoing_mail_addresses` table.
