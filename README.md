@@ -21,19 +21,23 @@ to your mail. That could be used to sort sent mails later. The `DBMail` class is
 Installing DBMailService
 ------------------------
 
-TODO: install patch.
+There is an install process for this package. It will create a database patch. Once you have run the install process,
+you will need to install the patch.
 
-There is an install process for this package. It will require to provide a valid <strong>DB_MySqlConnection</strong>. The install
-process will create 2 tables if they are not alreay there: <strong>outgoing_mails</strong> and <strong>outgoing_mail_addresses</strong>.
+The patch will create 2 tables if they are not alreay there: <strong>outgoing_mails</strong> and <strong>outgoing_mail_addresses</strong>.
 
-<h2>Usage sample</h2>
+The install process will also create a *dbMailService* instance that will be connected to the current
+*dbConnection* (if it exists) and will use the *mailService* instance to actually send the mail.
+
+Usage sample
+------------
 
 You use this service as you would use any MailService.
 
 
 For instance, to send a mail, you just need to write:
 
-<pre class="brush:php">
+```php
 $mailService = Mouf::getDBMailService();
 
 $mail = new DBMail();
@@ -46,25 +50,26 @@ $mail->setCategory("My category");
 $mail->setType("My type");
 
 $mailService->send($mail);
-</pre>
-The code above assumes that you configured an instance in Mouf called "dbMailService".
+```
 
-<h2>Accessing the sent mails database</h2>
+Accessing the sent mails database
+---------------------------------
 
 You can access the sent mails database directly from the Mouf administration interface.
-You just need to click on the <b>Utils</b> menu and click the <b>View outgoing mails</b> submenu.
+You just need to click on the **Utils** menu and click the **View outgoing mails** submenu.
 
-<img src="outgoing_mails.png" alt="Mouf's DBMailService Outgoing Mails screenshot" />
+![doc/images/screenshot_outgoing_mails.png](Mouf's DBMailService Outgoing Mails screenshot)
 
 As you can see in the screenshot, you can view the list of sent mails. A full-text search box will search
 the whole outgoing mails.
 
-<h2>Forwarding mails</h2>
+Forwarding mails
+----------------
 
-The DBMailService is very useful because it stores the mails in database.
+The **DBMailService** is very useful because it stores the mails in database.
 Obviously, you can use it for debugging purposes. However, most of the time, you will want
-to store the mail in database AND send it. For this, the DBMailService can <strong>forward</strong> the
+to store the mail in database AND send it. For this, the DBMailService can **forward** the
 mail to another mail service. You just need to edit the Mouf's instance of the service and set the
 forward service:
 
-<img src="dbmailservice_instance_forward.png" alt="Mouf's DBMailService instance" />
+![doc/images/screenshot_forward.png](Mouf's DBMailService instance)
