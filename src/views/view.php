@@ -1,7 +1,6 @@
 <?php 
-/*@var $this DBMailServiceListController */
+/*@var $this Mouf\Utils\Mailer\Controllers\DBMailServiceListController */
 ?>
-<h1>Mail detail</h1>
 <script type="text/javascript">
 function setIframeHeight(height) {
 	jQuery("#htmlBodyMail").height(height);
@@ -16,23 +15,29 @@ pre#textbody {
 }
 </style>
 <?php mailViewDisplayBackButton($this); ?>
-<div>
-<label>From:</label>
-<span><?php echo '<a href="mailto:'.$this->mail->getFrom()->getMail().'">'.plainstring_to_htmlprotected($this->mail->getFrom()).'</a>'; ?></span>
+<h1>Mail detail</h1>
+<form class="form-horizontal">
+
+<div class="control-group">
+	<label class="control-label">From:</label>
+	<div class="controls"><?php echo '<a href="mailto:'.$this->mail->getFrom()->getMail().'">'.plainstring_to_htmlprotected($this->mail->getFrom()).'</a>'; ?></div>
 </div>
 <?php
 displayMailAddresses($this->mail->getToRecipients(), "To");
 displayMailAddresses($this->mail->getCcRecipients(), "Cc");
 displayMailAddresses($this->mail->getBccRecipients(), "Bcc");
 ?>
-<div>
-<label>Title:</label>
-<span><?php echo plainstring_to_htmlprotected($this->mail->getTitle()); ?></span>
+<div class="control-group">
+	<label class="control-label">Title:</label>
+	<div class="controls">
+	<?php echo plainstring_to_htmlprotected($this->mail->getTitle()); ?>
+	</div>
 </div>
-<div>
-<label>Date:</label>
-<span><?php echo date('r', $this->mail->getDateSent()); ?></span>
+<div class="control-group">
+	<label class="control-label">Date:</label>
+	<div class="controls"><?php echo date('r', $this->mail->getDateSent()); ?></div>
 </div>
+</form>
 
 <?php if ($this->mail->getBodyHtml()) { ?>
 <div>
@@ -64,9 +69,9 @@ mailViewDisplayBackButton($this);
 function displayMailAddresses(array $mailAddressList, $label) {
 	if (!empty($mailAddressList)) {
 ?>
-	<div>
-	<label><?php echo $label ?>:</label>
-	<span>
+	<div class="control-group">
+	<label class="control-label"><?php echo $label ?>:</label>
+	<div class="controls">
 	<?php
 	$mails = array();
 	foreach ($mailAddressList as $recipient) {
@@ -74,7 +79,7 @@ function displayMailAddresses(array $mailAddressList, $label) {
 	}
 	echo implode(", ", $mails);
 	?>
-	</span>
+	</div>
 	</div>
 <?php 
 	}
@@ -87,7 +92,7 @@ function mailViewDisplayBackButton($controller) {
 	<input type="hidden" name="selfedit" value="<?php echo plainstring_to_htmlprotected($controller->selfedit); ?>" />
 	<input type="hidden" name="fullTextSearch" value="<?php echo plainstring_to_htmlprotected($controller->fullTextSearch); ?>" />
 	<input type="hidden" name="offset" value="<?php echo plainstring_to_htmlprotected($controller->offset); ?>" />
-	<button type="submit">Back</button>
+	<button type="submit" class="btn btn-danger">&lt; Back</button>
 </form>
 <?php 
 }

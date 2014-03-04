@@ -2,6 +2,8 @@
 namespace Mouf\Utils\Mailer;
 
 use Mouf\Utils\Mailer\MailServiceInterface;
+use Mouf\Database\DBConnection\ConnectionInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * This class does not send mails; instead it stores the mails in database.<br/>
@@ -20,13 +22,24 @@ use Mouf\Utils\Mailer\MailServiceInterface;
 class DBMailService implements MailServiceInterface {
 	
 	/**
+	 * 
+	 * @param ConnectionInterface $datasource The datasource to use to store the mails.
+	 * @param MailServiceInterface $forwardTo If set, the mail sent will be forwarded to this service after being stored in database. Put a mail service that actually sends mails in this property. This way, when you call the DB mail service, it will store the mail in database, then run the next mail service that will actually send the mail.
+	 * @param LoggerInterface $log The logger to use.
+	 */
+	public function __construct(ConnectionInterface $datasource, MailServiceInterface $forwardTo = null, LoggerInterface $log = null) {
+		$this->datasource = $datasource;
+		$this->forwardTo = $forwardTo;
+		$this->log = $log;
+	}
+	
+	/**
 	 * The datasource to use.
 	 *
-	 * @Property
 	 * @Compulsory
-	 * @var DB_ConnectionInterface
+	 * @var ConnectionInterface
 	 */
-	public $datasource;
+	protected $datasource;
 	
 	/**
 	 * If set, the mail sent will be forwarded to this service after being stored in database.
@@ -34,18 +47,16 @@ class DBMailService implements MailServiceInterface {
 	 * This way, when you call the DB mail service, it will store the mail in database, then run
 	 * the next mail service that will actually send the mail.
 	 * 
-	 * @Property
 	 * @var MailServiceInterface
 	 */
-	public $forwardTo;
+	protected $forwardTo;
 	
 	/**
 	 * The logger to use.
 	 *
-	 * @Property
-	 * @var LogInterface
+	 * @var LoggerInterface
 	 */
-	public $log;
+	protected $log;
 	
 	
 	
@@ -55,11 +66,9 @@ class DBMailService implements MailServiceInterface {
 	 * @param MailInterface $mail The mail to send.
 	 */
 	public function send(MailInterface $mail) {
-		// Transactions have been disabled. This is because we might want to send a mail as part of a wider
-		// transaction and that there is only one transaction allowed at a time. 
-		/*try {
+		try {
 			$this->datasource->beginTransaction();
-			*/
+			
 			if ($mail instanceof DBMailInterface) {
 				$category = $mail->getCategory();
 				$type = $mail->getType();
@@ -108,23 +117,28 @@ class DBMailService implements MailServiceInterface {
 				$recipientMails[] = $recipient->getMail();
 			}
 			if ($this->log) {
-				$this->log->debug("Storing mail to ".implode(", ", $recipientMails)." in database. Mail subject: ".$mail->getTitle());
+				$this->log->debug("Storing mail to {recipients} in database. Mail subject: {title}", 
+				[
+						'recipients' => implode(", ", $recipientMails),
+						'title' => $mail->getTitle()
+				]
+				);
 			}
 			
 			if ($this->forwardTo) {
 				$this->forwardTo->send($mail);
 			}
 		
-		/*	$this->datasource->commit();
-		} catch (Exception $e) {
+			$this->datasource->commit();
+		} catch (\Exception $e) {
 			// Note: if an exception is thrown while logging or forwarding the mail, the database will be roll-backed
 			try {
 				$this->datasource->rollback();
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				// Ignore rollback error, we want to know what went wrong before.
 			}
 			throw $e;
-		}*/
+		}
 	}
 	
 	/**

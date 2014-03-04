@@ -1,11 +1,12 @@
 <?php
+namespace Mouf\Utils\Mailer\Controllers;
 
 use Mouf\Mvc\Splash\Controllers\Controller;
 use Mouf\Utils\Common\MoufHelpers\MoufProxy;
+use Mouf\InstanceProxy;
 /**
  * The controller used by the db mail service to display mail lists and mails.
  *
- * @Component
  */
 class DBMailServiceListController extends Controller {
 
@@ -43,20 +44,20 @@ class DBMailServiceListController extends Controller {
 	 * Admin page used to list the latest sent mails.
 	 *
 	 * @Action
-	 * @Logged
+	 * //@Logged
 	 */
-	public function defaultAction($instanceName, $fullTextSearch = null, $offset = 0, $selfedit="false") {
+	public function index($instanceName, $fullTextSearch = null, $offset = 0, $selfedit="false") {
 		$this->instanceName = $instanceName;
 		$this->selfedit = $selfedit;
 		$this->fullTextSearch = $fullTextSearch;
 		$this->offset = $offset;
 		
-		$dbMailServiceProxy = MoufProxy::getInstance($instanceName, $selfedit=="true");
+		$dbMailServiceProxy = new InstanceProxy($instanceName, $selfedit=="true");
 		/* @var $dbMailServiceProxy DBMailService */
 		$this->mailList = $dbMailServiceProxy->getMailsList("sent_date", "DESC", $offset, self::PAGE_SIZE, $fullTextSearch);
 		
-		$this->template->addContentFile(dirname(__FILE__)."/../views/list.php", $this);
-		$this->template->draw();
+		$this->content->addFile(dirname(__FILE__)."/../../../../views/list.php", $this);
+		$this->template->toHtml();
 	}
 	
 	/**
@@ -76,12 +77,12 @@ class DBMailServiceListController extends Controller {
 		$this->fullTextSearch = $fullTextSearch;
 		$this->offset = $offset;
 		
-		$dbMailServiceProxy = MoufProxy::getInstance($instanceName, $selfedit=="true");
+		$dbMailServiceProxy = new InstanceProxy($instanceName, $selfedit=="true");
 		/* @var $dbMailServiceProxy DBMailService */
 		$this->mail = $dbMailServiceProxy->getMail($id);
 		
-		$this->template->addContentFile(dirname(__FILE__)."/../views/view.php", $this);
-		$this->template->draw();
+		$this->content->addFile(dirname(__FILE__)."/../../../../views/view.php", $this);
+		$this->template->toHtml();
 	}
 	
 	/**
@@ -94,10 +95,10 @@ class DBMailServiceListController extends Controller {
 		$this->instanceName = $instanceName;
 		$this->selfedit = $selfedit;
 	
-		$dbMailServiceProxy = MoufProxy::getInstance($instanceName, $selfedit=="true");
+		$dbMailServiceProxy = new InstanceProxy($instanceName, $selfedit=="true");
 		/* @var $dbMailServiceProxy DBMailService */
 		$this->mail = $dbMailServiceProxy->getMail($id);
 	
-		include(dirname(__FILE__)."/../views/viewHtmlBody.php");
+		include(dirname(__FILE__)."/../../../../views/viewHtmlBody.php");
 	}
 }

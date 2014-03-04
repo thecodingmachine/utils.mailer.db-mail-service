@@ -27,6 +27,15 @@ class DBMailServiceInstaller implements PackageInstallerInterface {
 			// Let's set a name for this instance (otherwise, it would be anonymous)
 			$dbMailService->setName("dbMailService");
 			$dbMailService->getProperty("datasource")->setValue($moufManager->getInstanceDescriptor('dbConnection'));
+			
+			if ($moufManager->instanceExists("mailService")) {
+				$dbMailService->getProperty("forwardTo")->setValue($moufManager->getInstanceDescriptor('mailService'));
+			}
+			if ($moufManager->instanceExists("psr.errorLogLogger")) {
+				$dbMailService->getProperty("log")->setValue($moufManager->getInstanceDescriptor('psr.errorLogLogger'));
+			}
+			
+			
 		}
 		
 		DatabasePatchInstaller::registerPatch($moufManager,
