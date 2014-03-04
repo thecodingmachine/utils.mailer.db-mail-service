@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS `outgoing_mails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category` varchar(50) COLLATE utf8_unicode_ci NULL,
@@ -24,16 +23,6 @@ CREATE TABLE IF NOT EXISTS `outgoing_mail_addresses` (
   `role` varchar(7) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Can be one of: "to", "cc", "bcc", "from", "replyto"',
   `requested_blacklist` TINYINT COLLATE utf8_unicode_ci NOT NULL DEFAULT 0 COMMENT '1 if this user requested to be blacklisted following this particular mail',
   PRIMARY KEY (`id`),
-  KEY `outgoing_mail_id` (`outgoing_mail_id`)
+  KEY `outgoing_mail_id` (`outgoing_mail_id`),
+  CONSTRAINT `outgoing_mail_addresses_ibfk_1` FOREIGN KEY (`outgoing_mail_id`) REFERENCES `outgoing_mails` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='This table stores the mail addresses related to outgoing mai' AUTO_INCREMENT=1 ;
-
---
--- Contraintes pour les tables exportées
---
-
---
--- Contraintes pour la table `outgoing_mail_addresses`
---
-ALTER TABLE `outgoing_mail_addresses`
-  ADD CONSTRAINT `outgoing_mail_addresses_ibfk_1` FOREIGN KEY (`outgoing_mail_id`) REFERENCES `outgoing_mails` (`id`);
-  
